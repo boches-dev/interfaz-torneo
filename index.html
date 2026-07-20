@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Torneo de Decks</title>
+    <style>
+        /* Aquí va el CSS */
+        body {
+            background-color: #14145e;
+            color: rgb(220, 37, 37);
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: gold;
+            text-align: center;
+        }
+
+        button {
+            background-color: rgb(30, 245, 30);
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: rgb(25, 90, 9);
+        }
+
+        input {
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            margin: 5px;
+            width: 200px;
+        }
+
+        .tarjeta {
+            background-color: #16213e;
+            padding: 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 4px solid gold;
+        }
+    </style>
+</head>
+<body>
+    <h1> ¡Aleatorizar Decks!</h1>
+
+    <!-- Sección para agregar jugadores -->
+    <div>
+        <h2>Agregar al vergas que juega</h2>
+        <input type="text" id="nombre" placeholder="Nombre del vergas que juega">
+        <button onclick="agregarJugador()">Agregar</button>
+    </div>
+
+    <!-- Lista de jugadores -->
+    <div>
+        <h2>Jugadores</h2>
+        <div id="lista-jugadores">
+            <p>No hay jugadores registrados.</p>
+        </div>
+    </div>
+
+    <script>
+        // Aquí va el JavaScript
+        let jugadores = [];
+
+        function agregarJugador() {
+            let nombre = document.getElementById("nombre").value;
+
+            if (nombre === "") {
+                alert("Por favor escribe un nombre.");
+                return;
+            }
+
+            let jugador = {
+                id: jugadores.length + 1,
+                nombre: nombre,
+                deck: null
+            };
+
+            jugadores.push(jugador);
+            mostrarJugadores();
+
+            // limpiar el input
+            document.getElementById("nombre").value = "";
+        }
+
+        function mostrarJugadores() {
+            let lista = document.getElementById("lista-jugadores");
+
+            if (jugadores.length === 0) {
+                lista.innerHTML = "<p>No hay jugadores registrados.</p>";
+                return;
+            }
+
+            lista.innerHTML = "";
+            jugadores.forEach(jugador => {
+                let tarjeta = document.createElement("div");
+                tarjeta.className = "tarjeta";
+                tarjeta.textContent = `${jugador.nombre} - Deck: ${jugador.deck ? jugador.deck : "Sin asignar"}`;
+                lista.appendChild(tarjeta);
+            });
+        }
+    </script>
+</body>
+</html>

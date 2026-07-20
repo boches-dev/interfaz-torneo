@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vamos a jugar Random!</title>
+</head>
+<style>
+        /* Estilo general de la página */
+        body {
+            background-color: #1b520f;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        /* Estilo de los inputs */
+        input, select, textarea {
+            background-color: #11306e;
+            color: white;
+            border: 3px solid purple;
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 16px;
+            width: 250px;
+            margin: 8px 0;
+        }
+
+        /* Estilo del botón */
+        button {
+            background-color: rgb(244, 247, 247);
+            color: rgb(18, 89, 9);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Efecto cuando el mouse pasa sobre el botón */
+        button:hover {
+            background-color: darkviolet;
+        }
+
+        /* Efecto cuando el usuario hace clic en un input */
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: gold;
+        }
+    </style>
+
+<body>
+    <h1>Jugaremos con decks Random!! </h1>
+    <h2>"Lista de jugadores"</h2>
+    <ul>Boches </br>
+        Alonso </br>
+        Poncho </br> 
+    </ul>
+
+    <h2>TCG Disponibles</h2>
+    <ol><li>Magic </li></br>
+        <li>One Piece </li></br>
+        <li>Gundam </li></br>
+        <li>Riftbound</li></br>
+    </ol>
+    <form>
+    <!-- Campo de texto -->
+    <input type="text" placeholder="Escribe aquí...">
+    
+    <!-- Campo de número -->
+    <input type="number" placeholder="Un número...">
+    
+    <!-- Campo de contraseña -->
+    <input type="password" placeholder="Contraseña...">
+    
+    <!-- Lista desplegable -->
+    <select>
+        <option value="magic">Magic</option>
+        <option value="pokemon">Pokémon</option>
+        <option value="riftbound">Riftbound</option>
+    </select>
+    
+    <!-- Área de texto grande -->
+    <textarea placeholder="Escribe mucho texto..."></textarea>
+    
+    <!-- Botón -->
+    <button type="button">Random</button>
+</form>
+
+</body>
+</html>
