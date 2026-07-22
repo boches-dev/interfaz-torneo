@@ -3,408 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <title>Torneo de Decks</title>
-    <style>/* === RESET Y BASE === */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #0f0f1a;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 { color: gold; text-align: center; margin-bottom: 20px; }
+        section {
+            background: #1a1a2e;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+        h2 { color: gold; margin-bottom: 15px; }
+        input, select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,215,0,0.3);
+            border-radius: 8px;
+            padding: 10px;
+            color: white;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button {
+            background: purple;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 5px;
+        }
+        button:hover { background: darkviolet; }
+        .tarjeta {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-left: 3px solid gold;
+        }
+        .contenedor {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        }
 
-body {
-    background-color: #0f0f1a;
-    background-image: 
-        radial-gradient(ellipse at top, #1a0533 0%, #0f0f1a 70%);
-    color: #e0e0e0;
-    font-family: 'Segoe UI', Arial, sans-serif;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-/* === HEADER === */
-header {
-    text-align: center;
-    padding: 30px 0;
-    margin-bottom: 30px;
-}
-
-header h1 {
-    font-size: 3em;
-    background: linear-gradient(135deg, #FFD700, #FF6B35, #FF1493);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: none;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
-
-/* === CONTENEDOR PRINCIPAL === */
-.contenedor {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-/* === TARJETAS (secciones) === */
-section {
-    background: linear-gradient(145deg, #1a1a2e, #16213e);
-    border-radius: 16px;
-    padding: 25px;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(138, 43, 226, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-section:hover {
-    transform: translateY(-3px);
-    box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.5),
-        0 0 30px rgba(138, 43, 226, 0.2);
-}
-
-section h2 {
-    color: #FFD700;
-    font-size: 1.3em;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-/* === INPUTS === */
-input[type="text"] {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    border-radius: 8px;
-    padding: 10px 15px;
-    color: white;
-    font-size: 14px;
-    width: 100%;
-    margin-bottom: 10px;
-    transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-input[type="text"]:focus {
-    outline: none;
-    border-color: #FFD700;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
-}
-
-input[type="text"]::placeholder {
-    color: rgba(255, 255, 255, 0.3);
-}
-
-/* === SELECT === */
-select {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 215, 0, 0.3);
-    border-radius: 8px;
-    padding: 10px 15px;
-    color: white;
-    font-size: 14px;
-    width: 100%;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: border-color 0.3s;
-}
-
-select:focus {
-    outline: none;
-    border-color: #FFD700;
-}
-
-select option {
-    background-color: #1a1a2e;
-    color: white;
-}
-
-/* === BOTONES === */
-button {
-    border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    margin-top: 5px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-/* Botón agregar */
-#seccion-agregar button {
-    background: linear-gradient(135deg, #6a0dad, #9b30ff);
-    color: white;
-    box-shadow: 0 4px 15px rgba(106, 13, 173, 0.4);
-}
-
-#seccion-agregar button:hover {
-    background: linear-gradient(135deg, #9b30ff, #6a0dad);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(106, 13, 173, 0.6);
-}
-
-/* Botón asignar */
-#seccion-asignar button {
-    background: linear-gradient(135deg, #FFD700, #FF8C00);
-    color: #0f0f1a;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-}
-
-#seccion-asignar button:hover {
-    background: linear-gradient(135deg, #FF8C00, #FFD700);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
-}
-
-/* Botón eliminar */
-.btn-eliminar {
-    background: linear-gradient(135deg, #8B0000, #cc0000) !important;
-    color: white !important;
-    padding: 5px 12px !important;
-    font-size: 12px !important;
-    width: auto !important;
-    margin: 0 !important;
-    box-shadow: 0 2px 8px rgba(139, 0, 0, 0.4) !important;
-}
-
-.btn-eliminar:hover {
-    background: linear-gradient(135deg, #cc0000, #8B0000) !important;
-    transform: translateY(-1px) !important;
-}
-
-/* === TARJETAS DE JUGADORES === */
-.tarjeta-jugador {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 10px 15px;
-    margin: 8px 0;
-    border-left: 3px solid #9b30ff;
-    transition: background 0.3s;
-}
-
-.tarjeta-jugador:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-/* === TARJETAS DE DECKS === */
-.tarjeta-deck {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-    padding: 8px 15px;
-    margin: 6px 0;
-    border-left: 3px solid #FFD700;
-    transition: background 0.3s, transform 0.2s;
-}
-
-.tarjeta-deck:hover {
-    background: rgba(255, 215, 0, 0.08);
-    transform: translateX(5px);
-}
-
-/* === TARJETAS DE RESULTADOS === */
-.tarjeta-resultado {
-    background: linear-gradient(135deg, rgba(106,13,173,0.2), rgba(255,215,0,0.1));
-    border-radius: 8px;
-    padding: 12px 15px;
-    margin: 8px 0;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: transform 0.2s;
-}
-
-.tarjeta-resultado:hover {
-    transform: translateX(5px);
-}
-
-.tarjeta-resultado .jugador-nombre {
-    color: #9b30ff;
-    font-weight: bold;
-}
-
-.tarjeta-resultado .deck-nombre {
-    color: #FFD700;
-}
-
-/* === SECCIÓN QUE OCUPA TODO EL ANCHO === */
 .ancho-completo {
     grid-column: 1 / -1;
 }
 
-/* === MENSAJE VACÍO === */
-.mensaje-vacio {
-    color: rgba(255, 255, 255, 0.3);
-    font-style: italic;
-    text-align: center;
-    padding: 15px;
-}</style>
+
+    </style>
 </head>
-
 <body>
-    <header>
-        <h1>🎴 Aleatorizar Decks</h1>
-    </header>
-
+    <h1>Vamo' a juga'!!</h1>
     <div class="contenedor">
-        <section id="seccion-agregar">
-            <h2>➕ Agregar Jugador</h2>
-            <input type="text" id="input-nombre" placeholder="Nombre del jugador">
-            <button onclick="agregarJugador()">+ Agregar</button>
-        </section>
 
-        <section id="seccion-asignar">
-            <h2>🎲 Asignar Decks</h2>
-            <select id="select-tcg" onchange="mostrarDecksDisponibles()">
-                <option value="Magic">Magic</option>
-                <option value="Pokemon">Pokémon</option>
-                <option value="YuGiOh">Yu-Gi-Oh</option>
-                <option value="Riftbound">Riftbound</option>
-            </select>
-            <button onclick="asignarDecks()">🎲 Asignar Decks</button>
-        </section>
+    <section>
+        <h2>➕ Agregar Jugador</h2>
+        <input type="text" id="input-nombre" placeholder="Nombre del jugador">
+        <button onclick="agregarJugador()">+ Agregar</button>
+    </section>
+<section>
+    <h2>➕ Agregar Deck</h2>
+    <input type="text" id="input-deck-nombre" placeholder="Nombre del deck">
+    <input type="text" id="input-deck-tcg" placeholder="TCG (Magic, Pokémon...)">
+    <button onclick="agregarDeck()">+ Agregar Deck</button>
+</section>
 
-        <section id="seccion-jugadores">
-            <h2>👥 Jugadores Registrados</h2>
-            <div id="lista-jugadores">
-                <p class="mensaje-vacio">No hay jugadores registrados.</p>
-            </div>
-        </section>
+    <section>
+        <h2>👥 Jugadores Registrados</h2>
+        <div id="lista-jugadores">
+            <p>No hay jugadores registrados.</p>
+        </div>
+    </section>
 
-        <section id="seccion-decks">
-            <h2>🃏 Decks Disponibles</h2>
-            <div id="lista-decks"></div>
-        </section>
+    <section>
+        <h2>🃏 Decks Disponibles</h2>
+        <select id="select-tcg" onchange="mostrarDecksDisponibles()">
+        </select>
+        <div id="lista-decks"></div>
+    </section>
 
-        <section id="seccion-resultados" class="ancho-completo">
-            <h2>🏆 Resultados</h2>
-            <div id="lista-resultados">
-                <p class="mensaje-vacio">Aún no se han asignado decks.</p>
-            </div>
-        </section>
+    <section>
+        <h2>🎲 Asignar Decks</h2>
+        <button onclick="asignarDecks()">🎲 Asignar Decks al azar</button>
+    </section>
+
+    <section class="ancho-completo">
+        <h2>🏆 Resultados</h2>
+        <div id="lista-resultados">
+            <p>Aún no se han asignado decks.</p>
+        </div>
+    </section>
+
+    
     </div>
-</body>
-<script>
-    // Variables globales
-let jugadores = [];
 
-let decksDisponibles = {
-    "Magic": ["Dragones Rojos", "Elfos Oscuros", "Guerreros", "Zombies", "Ángeles"],
-    "Pokemon": ["Pikachu Raichu", "Charizard", "Mewtwo", "Gengar", "Eevee"],
-    "YuGiOh": ["Exodia", "Blue Eyes", "Dark Magician", "Cyber Dragon", "Héroe Elemental"],
-    "Riftbound": ["Ivern", "Jinx", "Ahri", "Yasuo", "Lux"]
-};
+    <script>
+        let jugadores = [];
+        let decksDisponibles = {};
 
-function agregarJugador() {
-    let input = document.getElementById("input-nombre");
-    let nombre = input.value.trim();
+        // ===== CARGAR DATOS DEL SERVIDOR =====
+        async function cargarDecks() {
+            try {
+                let respuesta = await fetch('/decks');
+                let decks = await respuesta.json();
+                console.log("Decks recibidos:", decks);
 
-    if (nombre === "") {
-        alert("Por favor escribe un nombre.");
-        return;
-    }
+                decks.forEach(deck => {
+                    if (!decksDisponibles[deck.tcg]) {
+                        decksDisponibles[deck.tcg] = [];
+                    }
+                    decksDisponibles[deck.tcg].push(deck.nombre);
+                });
 
-    if (jugadores.find(j => j.nombre === nombre)) {
-        alert("Ya existe un jugador con ese nombre.");
-        return;
-    }
+                let select = document.getElementById("select-tcg");
+                select.innerHTML = "";
+                Object.keys(decksDisponibles).forEach(tcg => {
+                    let opcion = document.createElement("option");
+                    opcion.value = tcg;
+                    opcion.textContent = tcg;
+                    select.appendChild(opcion);
+                });
 
-    jugadores.push({
-        id: jugadores.length + 1,
-        nombre: nombre,
-        deck: null
-    });
+                mostrarDecksDisponibles();
+            } catch (error) {
+                console.error("Error cargando decks:", error);
+            }
+        }
 
-    input.value = "";
-    mostrarJugadores();
-}
+        async function cargarJugadores() {
+            try {
+                let respuesta = await fetch('/jugadores');
+                jugadores = await respuesta.json();
+                mostrarJugadores();
+            } catch (error) {
+                console.error("Error cargando jugadores:", error);
+            }
+        }
 
-function eliminarJugador(nombre) {
-    jugadores = jugadores.filter(j => j.nombre !== nombre);
-    mostrarJugadores();
-}
+        // ===== JUGADORES =====
+        async function agregarJugador() {
+            let input = document.getElementById("input-nombre");
+            let nombre = input.value.trim();
 
-function asignarDecks() {
-    if (jugadores.length === 0) {
-        alert("Agrega jugadores primero.");
-        return;
-    }
+            if (nombre === "") {
+                alert("Por favor escribe un nombre.");
+                return;
+            }
 
-    let tcg = document.getElementById("select-tcg").value;
-    let decks = [...decksDisponibles[tcg]];
+            let respuesta = await fetch('/jugadores', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre })
+            });
 
-    if (decks.length < jugadores.length) {
-        alert(`No hay suficientes decks de ${tcg} para todos los jugadores.`);
-        return;
-    }
+            let datos = await respuesta.json();
+            jugadores = datos.jugadores;
+            input.value = "";
+            mostrarJugadores();
+        }
 
-    jugadores.forEach(jugador => {
-        let indice = Math.floor(Math.random() * decks.length);
-        jugador.deck = decks[indice];
-        decks.splice(indice, 1);
-    });
+        async function eliminarJugador(nombre) {
+            await fetch(`/jugadores/${nombre}`, { method: 'DELETE' });
+            jugadores = jugadores.filter(j => j.nombre !== nombre);
+            mostrarJugadores();
+        }
 
-    mostrarResultados();
-}
-    function mostrarJugadores() {
-    let lista = document.getElementById("lista-jugadores");
+        function mostrarJugadores() {
+            let lista = document.getElementById("lista-jugadores");
 
-    if (jugadores.length === 0) {
-        lista.innerHTML = `<p class="mensaje-vacio">No hay jugadores registrados.</p>`;
-        return;
-    }
+            if (jugadores.length === 0) {
+                lista.innerHTML = "<p>No hay jugadores registrados.</p>";
+                return;
+            }
 
-    lista.innerHTML = "";
-    jugadores.forEach(jugador => {
-        let tarjeta = document.createElement("div");
-        tarjeta.className = "tarjeta-jugador";
-        tarjeta.innerHTML = `
-            <span>${jugador.nombre}</span>
-            <button class="btn-eliminar" onclick="eliminarJugador('${jugador.nombre}')">✕ Eliminar</button>
-        `;
-        lista.appendChild(tarjeta);
-    });
-}
+            lista.innerHTML = "";
+            jugadores.forEach(jugador => {
+                let tarjeta = document.createElement("div");
+                tarjeta.className = "tarjeta";
+                tarjeta.innerHTML = `
+                    <span>${jugador.nombre}</span>
+                    <button onclick="eliminarJugador('${jugador.nombre}')" 
+                        style="width:auto; background:#8B0000; padding:5px 10px; margin:0; float:right">
+                        ✕
+                    </button>
+                `;
+                lista.appendChild(tarjeta);
+            });
+        }
 
-function mostrarDecksDisponibles() {
+        // ===== DECKS =====
+        function mostrarDecksDisponibles() {
     let tcg = document.getElementById("select-tcg").value;
     let decks = decksDisponibles[tcg];
     let lista = document.getElementById("lista-decks");
 
     lista.innerHTML = "";
+    if (!decks) return;
+
     decks.forEach(deck => {
         let item = document.createElement("div");
-        item.className = "tarjeta-deck";
-        item.textContent = `🃏 ${deck}`;
-        lista.appendChild(item);
-    });
-}
-
-function mostrarResultados() {
-    let lista = document.getElementById("lista-resultados");
-    lista.innerHTML = "";
-
-    jugadores.forEach(jugador => {
-        let item = document.createElement("div");
-        item.className = "tarjeta-resultado";
+        item.className = "tarjeta";
         item.innerHTML = `
-            <span class="jugador-nombre">👤 ${jugador.nombre}</span>
-            <span>→</span>
-            <span class="deck-nombre">🃏 ${jugador.deck}</span>
+            <span>🃏 ${deck}</span>
+            <button onclick="eliminarDeck('${deck}')" 
+                style="width:auto; background:#8B0000; padding:5px 10px; margin:0; float:right">
+                ✕
+            </button>
         `;
         lista.appendChild(item);
     });
 }
-</script>
+
+        // ===== ASIGNAR =====
+        async function asignarDecks() {
+            if (jugadores.length === 0) {
+                alert("Agrega jugadores primero.");
+                return;
+            }
+
+            let tcg = document.getElementById("select-tcg").value;
+
+            let respuesta = await fetch('/jugadores/asignar', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tcg })
+            });
+
+            if (!respuesta.ok) {
+                let error = await respuesta.json();
+                alert(error.error);
+                return;
+            }
+
+            let datos = await respuesta.json();
+            jugadores = datos.jugadores;
+            mostrarResultados();
+        }
+
+        function mostrarResultados() {
+            let lista = document.getElementById("lista-resultados");
+            lista.innerHTML = "";
+
+            jugadores.forEach(jugador => {
+                let item = document.createElement("div");
+                item.className = "tarjeta";
+                item.innerHTML = `
+                    <span style="color:#9b30ff">👤 ${jugador.nombre}</span>
+                    <span> juega con  </span>
+                    <span style="color:gold">🃏 ${jugador.deck}</span>
+                `;
+                lista.appendChild(item);
+            });
+        }
+
+        async function agregarDeck() {
+    let nombre = document.getElementById("input-deck-nombre").value.trim();
+    let tcg = document.getElementById("input-deck-tcg").value.trim();
+
+    if (nombre === "" || tcg === "") {
+        alert("Por favor llena todos los campos.");
+        return;
+    }
+
+    let respuesta = await fetch('/decks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, tcg })
+    });
+
+    document.getElementById("input-deck-nombre").value = "";
+    document.getElementById("input-deck-tcg").value = "";
+
+    decksDisponibles = {};
+    await cargarDecks();
+}
+
+async function eliminarDeck(nombre) {
+    await fetch(`/decks/${nombre}`, { method: 'DELETE' });
+    decksDisponibles = {};
+    await cargarDecks();
+}
+
+        // ===== INICIAR =====
+        console.log("Iniciando app...");
+        cargarDecks();
+        cargarJugadores();
+    </script>
+</body>
 </html>

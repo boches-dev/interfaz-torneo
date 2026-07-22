@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "nombre": "Boches",
+    "deck": "ezio"
+  },
+  {
+    "id": 2,
+    "nombre": "Pincho",
+    "deck": "sauron"
+  },
+  {
+    "id": 3,
+    "nombre": "Alonso",
+    "deck": "bilbo"
+  }
+]

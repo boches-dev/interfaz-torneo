@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "nombre": "Satya",
+    "tcg": "magic"
+  },
+  {
+    "id": 2,
+    "nombre": "ivern",
+    "tcg": "riftbound"
+  },
+  {
+    "id": 3,
+    "nombre": "Zurgo",
+    "tcg": "magic"
+  },
+  {
+    "id": 6,
+    "nombre": "sauron",
+    "tcg": "magic"
+  },
+  {
+    "id": 7,
+    "nombre": "bilbo",
+    "tcg": "magic"
+  },
+  {
+    "id": 6,
+    "nombre": "ezio",
+    "tcg": "magic"
+  }
+]
