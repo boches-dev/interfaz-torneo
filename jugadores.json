@@ -7,11 +7,11 @@
   {
     "id": 2,
     "nombre": "Pincho",
-    "deck": "sauron"
+    "deck": "bilbo"
   },
   {
     "id": 3,
     "nombre": "Alonso",
-    "deck": "bilbo"
+    "deck": "Zurgo"
   }
 ]
