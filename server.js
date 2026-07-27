@@ -47,9 +47,8 @@ app.post('/jugadores', (req, res) => {
 
     jugadores.push(jugador);
     fs.writeFileSync('./jugadores.json', JSON.stringify(jugadores, null, 2));
-    res.json({ mensaje: "Jugador agregado", jugadores });  // ← devuelve lista completa
+    res.json({ mensaje: "Jugador agregado", jugadores });
 });
-
 // PUT /jugadores/asignar — asigna decks a todos los jugadores
 app.put('/jugadores/asignar', (req, res) => {
     let jugadores = JSON.parse(fs.readFileSync('./jugadores.json', 'utf8'));

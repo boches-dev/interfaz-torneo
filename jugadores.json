@@ -2,16 +2,26 @@
   {
     "id": 1,
     "nombre": "Boches",
-    "deck": "ezio"
+    "deck": null
   },
   {
     "id": 2,
-    "nombre": "Pincho",
-    "deck": "bilbo"
+    "nombre": "pincho",
+    "deck": null
   },
   {
     "id": 3,
     "nombre": "Alonso",
-    "deck": "Zurgo"
+    "deck": null
+  },
+  {
+    "id": 4,
+    "nombre": "michu",
+    "deck": null
+  },
+  {
+    "id": 5,
+    "nombre": "joselito",
+    "deck": null
   }
 ]

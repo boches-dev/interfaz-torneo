@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourneyDecks - Torneo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: #0a0a14;
+            color: white;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .btn-volver {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .btn-volver:hover { background: rgba(255,255,255,0.2); }
+
+        .header h1 {
+            font-size: 1.5em;
+            background: linear-gradient(135deg, #FFD700, #FF6B35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* SETUP */
+        #seccion-setup {
+            max-width: 500px;
+            margin: 0 auto;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 16px;
+            padding: 30px;
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+
+        #seccion-setup h2 {
+            color: gold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .formato-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .formato-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,215,0,0.2);
+            border-radius: 10px;
+            padding: 15px 20px;
+            color: white;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.3s;
+        }
+
+        .formato-btn:hover {
+            border-color: gold;
+            background: rgba(255,215,0,0.1);
+        }
+
+        .formato-btn.seleccionado {
+            border-color: gold;
+            background: rgba(255,215,0,0.15);
+        }
+
+        .formato-btn h3 { color: gold; margin-bottom: 5px; }
+        .formato-btn p { font-size: 0.85em; color: rgba(255,255,255,0.5); }
+
+        .btn-iniciar {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: #0a0a14;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-iniciar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255,215,0,0.4);
+        }
+
+        /* TORNEO */
+        #seccion-torneo { display: none; }
+
+        .torneo-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .torneo-header h2 {
+            color: gold;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .torneo-header p {
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* ENFRENTAMIENTOS */
+        .ronda-titulo {
+            color: gold;
+            font-size: 1.3em;
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            border-top: 1px solid rgba(255,215,0,0.2);
+            border-bottom: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .enfrentamiento {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid rgba(255,215,0,0.15);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .enfrentamiento.completado {
+            border-color: rgba(0,255,0,0.2);
+            opacity: 0.7;
+        }
+
+        .versus {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .jugador-vs {
+            flex: 1;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+
+        .vs-texto {
+            color: rgba(255,255,255,0.3);
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .botones-resultado {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .btn-resultado {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .btn-j1 {
+            background: linear-gradient(135deg, #6a0dad, #9b30ff);
+            color: white;
+        }
+
+        .btn-j1:hover { box-shadow: 0 4px 15px rgba(106,13,173,0.5); }
+
+        .btn-empate {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            flex: 0.5 !important;
+        }
+
+        .btn-empate:hover { background: rgba(255,255,255,0.2); }
+
+        .btn-j2 {
+            background: linear-gradient(135deg, #FF6B35, #FF1493);
+            color: white;
+        }
+
+        .btn-j2:hover { box-shadow: 0 4px 15px rgba(255,107,53,0.5); }
+
+        .resultado-texto {
+            text-align: center;
+            color: gold;
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        /* BYE */
+        .bye-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin: 10px auto;
+            max-width: 600px;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            border: 1px dashed rgba(255,255,255,0.2);
+        }
+
+        /* CLASIFICACIÓN */
+        .clasificacion-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin: 8px auto;
+            max-width: 600px;
+            border: 1px solid rgba(255,215,0,0.15);
+        }
+
+        .posicion {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: rgba(255,255,255,0.3);
+            width: 40px;
+        }
+
+        .posicion.oro { color: #FFD700; }
+        .posicion.plata { color: #C0C0C0; }
+        .posicion.bronce { color: #CD7F32; }
+
+        .jugador-info { flex: 1; }
+        .jugador-info h3 { margin-bottom: 3px; }
+        .jugador-info p { font-size: 0.85em; color: rgba(255,255,255,0.5); }
+
+        .puntos-badge {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: #0a0a14;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        /* CAMPEÓN */
+        .campeon {
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .campeon .trofeo { font-size: 4em; margin-bottom: 15px; }
+        .campeon h2 { color: gold; font-size: 2em; margin-bottom: 10px; }
+        .campeon p { color: rgba(255,255,255,0.7); margin-bottom: 30px; }
+
+        .btn-nuevo {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: #0a0a14;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-nuevo:hover { transform: translateY(-2px); }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .versus { flex-direction: column; }
+            .vs-texto { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="/" class="btn-volver">← Volver</a>
+        <h1>🏆 Realizar Torneo</h1>
+    </div>
+
+    <!-- SETUP -->
+    <div id="seccion-setup">
+        <h2>Selecciona el formato</h2>
+
+        <div class="formato-grid">
+            <button class="formato-btn" onclick="seleccionarFormato('eliminacion', this)">
+                <h3>⚔️ Eliminación Directa</h3>
+                <p>Pierdes = fuera. El más rápido y emocionante.</p>
+            </button>
+            <button class="formato-btn" onclick="seleccionarFormato('roundrobin', this)">
+                <h3>🔄 Round Robin</h3>
+                <p>Todos juegan contra todos. El más justo.</p>
+            </button>
+            <button class="formato-btn" onclick="seleccionarFormato('suizo', this)">
+                <h3>🔀 Formato Suizo</h3>
+                <p>Ganadores vs ganadores. El más usado en torneos oficiales.</p>
+            </button>
+        </div>
+
+        <div id="jugadores-setup" style="margin-bottom: 20px; color: rgba(255,255,255,0.5); text-align: center;">
+            Cargando jugadores...
+        </div>
+
+        <button class="btn-iniciar" onclick="iniciarTorneo()">🏆 Iniciar Torneo</button>
+    </div>
+
+    <!-- TORNEO -->
+    <div id="seccion-torneo">
+        <div class="torneo-header">
+            <h2 id="titulo-torneo">Torneo</h2>
+            <p id="subtitulo-torneo"></p>
+        </div>
+        <div id="contenido-torneo"></div>
+    </div>
+
+    <script>
+        let jugadores = [];
+        let formatoSeleccionado = null;
+        let rondaActual = 1;
+        let participantes = [];
+
+        // ===== SETUP =====
+        async function cargarJugadores() {
+            let respuesta = await fetch('/jugadores');
+            jugadores = await respuesta.json();
+
+            let div = document.getElementById("jugadores-setup");
+            if (jugadores.length === 0) {
+                div.innerHTML = `⚠️ No hay jugadores registrados. <a href="/registro.html" style="color:gold">Agregar jugadores</a>`;
+            } else {
+                div.innerHTML = `✅ ${jugadores.length} jugadores registrados: ${jugadores.map(j => j.nombre).join(", ")}`;
+                div.style.color = "rgba(255,255,255,0.7)";
+            }
+        }
+
+        function seleccionarFormato(formato, btn) {
+            document.querySelectorAll('.formato-btn').forEach(b => b.classList.remove('seleccionado'));
+            btn.classList.add('seleccionado');
+            formatoSeleccionado = formato;
+        }
+
+        function iniciarTorneo() {
+            if (!formatoSeleccionado) {
+                alert("Por favor selecciona un formato.");
+                return;
+            }
+            if (jugadores.length < 2) {
+                alert("Necesitas al menos 2 jugadores.");
+                return;
+            }
+
+            // Resetear estadísticas
+            jugadores.forEach(j => {
+                j.victorias = 0;
+                j.derrotas = 0;
+                j.empates = 0;
+                j.puntos = 0;
+            });
+
+            document.getElementById("seccion-setup").style.display = "none";
+            document.getElementById("seccion-torneo").style.display = "block";
+
+            if (formatoSeleccionado === "eliminacion") {
+                iniciarEliminacion();
+            } else if (formatoSeleccionado === "roundrobin") {
+                iniciarRoundRobin();
+            } else if (formatoSeleccionado === "suizo") {
+                iniciarSuizo();
+            }
+        }
+
+        // ===== UTILIDADES =====
+        function mezclar(arreglo) {
+            let mezclado = [...arreglo];
+            for (let i = mezclado.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [mezclado[i], mezclado[j]] = [mezclado[j], mezclado[i]];
+            }
+            return mezclado;
+        }
+
+        function registrarVictoria(ganador, perdedor) {
+            ganador.victorias++;
+            ganador.puntos += 3;
+            perdedor.derrotas++;
+        }
+
+        function registrarEmpate(j1, j2) {
+            j1.empates++;
+            j1.puntos++;
+            j2.empates++;
+            j2.puntos++;
+        }
+
+        // ===== ELIMINACIÓN DIRECTA =====
+        function iniciarEliminacion() {
+            document.getElementById("titulo-torneo").textContent = "⚔️ Eliminación Directa";
+            participantes = mezclar([...jugadores]);
+            mostrarRondaEliminacion();
+        }
+
+        function mostrarRondaEliminacion() {
+            let contenido = document.getElementById("contenido-torneo");
+            contenido.innerHTML = `<div class="ronda-titulo">Ronda ${rondaActual}</div>`;
+
+            for (let i = 0; i < participantes.length - 1; i += 2) {
+                let j1 = participantes[i];
+                let j2 = participantes[i + 1];
+                contenido.appendChild(crearEnfrentamiento(j1, j2, `elim-${i}`, 'eliminacion'));
+            }
+
+            if (participantes.length % 2 !== 0) {
+                let bye = participantes[participantes.length - 1];
+                let byeDiv = document.createElement("div");
+                byeDiv.className = "bye-card";
+                byeDiv.innerHTML = `⭐ ${bye.nombre} pasa automáticamente a la siguiente ronda`;
+                contenido.appendChild(byeDiv);
+            }
+        }
+
+        function siguienteRondaEliminacion(ganadores) {
+            if (ganadores.length === 1) {
+                mostrarCampeon(ganadores[0]);
+                return;
+            }
+            rondaActual++;
+            participantes = ganadores;
+            mostrarRondaEliminacion();
+        }
+
+        // ===== ROUND ROBIN =====
+        function iniciarRoundRobin() {
+            document.getElementById("titulo-torneo").textContent = "🔄 Round Robin";
+            document.getElementById("subtitulo-torneo").textContent = 
+                `${jugadores.length * (jugadores.length - 1) / 2} partidas en total`;
+
+            let contenido = document.getElementById("contenido-torneo");
+            contenido.innerHTML = `<div class="ronda-titulo">Todas las partidas</div>`;
+
+            for (let i = 0; i < jugadores.length; i++) {
+                for (let j = i + 1; j < jugadores.length; j++) {
+                    contenido.appendChild(crearEnfrentamiento(jugadores[i], jugadores[j], `rr-${i}-${j}`, 'roundrobin'));
+                }
+            }
+
+            // Botón para ver clasificación al final
+            let btnClasif = document.createElement("button");
+            btnClasif.className = "btn-iniciar";
+            btnClasif.style.maxWidth = "600px";
+            btnClasif.style.margin = "20px auto";
+            btnClasif.style.display = "block";
+            btnClasif.textContent = "Ver Clasificación Final";
+            btnClasif.onclick = () => mostrarClasificacionFinal();
+            contenido.appendChild(btnClasif);
+        }
+
+        // ===== SUIZO =====
+        let rondasSuizo = 0;
+        let rondaSuizoActual = 0;
+
+        function iniciarSuizo() {
+            document.getElementById("titulo-torneo").textContent = "🔀 Formato Suizo";
+            rondasSuizo = Math.ceil(Math.log2(jugadores.length));
+            rondaSuizoActual = 1;
+            document.getElementById("subtitulo-torneo").textContent = `${rondasSuizo} rondas en total`;
+            mostrarRondaSuizo();
+        }
+
+        function mostrarRondaSuizo() {
+            let contenido = document.getElementById("contenido-torneo");
+            contenido.innerHTML = `<div class="ronda-titulo">Ronda ${rondaSuizoActual} de ${rondasSuizo}</div>`;
+
+            let ordenados = [...jugadores].sort((a, b) => b.puntos - a.puntos);
+
+            for (let i = 0; i < ordenados.length - 1; i += 2) {
+                contenido.appendChild(crearEnfrentamiento(ordenados[i], ordenados[i + 1], `suizo-${i}`, 'suizo'));
+            }
+
+            if (ordenados.length % 2 !== 0) {
+                let bye = ordenados[ordenados.length - 1];
+                bye.puntos += 3;
+                bye.victorias++;
+                let byeDiv = document.createElement("div");
+                byeDiv.className = "bye-card";
+                byeDiv.innerHTML = `⭐ ${bye.nombre} recibe bye (victoria automática)`;
+                contenido.appendChild(byeDiv);
+            }
+        }
+
+        // ===== CREAR ENFRENTAMIENTO =====
+        function crearEnfrentamiento(j1, j2, id, formato) {
+            let div = document.createElement("div");
+            div.className = "enfrentamiento";
+            div.id = `enf-${id}`;
+            div.innerHTML = `
+                <div class="versus">
+                    <div class="jugador-vs">👤 ${j1.nombre}</div>
+                    <div class="vs-texto">VS</div>
+                    <div class="jugador-vs">👤 ${j2.nombre}</div>
+                </div>
+                <div class="botones-resultado">
+                    <button class="btn-resultado btn-j1" onclick="registrarResultado('${j1.nombre}', '${j2.nombre}', '${id}', '${formato}', 1)">
+                        ✅ Ganó ${j1.nombre}
+                    </button>
+                    <button class="btn-resultado btn-empate" onclick="registrarResultado('${j1.nombre}', '${j2.nombre}', '${id}', '${formato}', 0)">
+                        🤝
+                    </button>
+                    <button class="btn-resultado btn-j2" onclick="registrarResultado('${j1.nombre}', '${j2.nombre}', '${id}', '${formato}', 2)">
+                        ✅ Ganó ${j2.nombre}
+                    </button>
+                </div>
+            `;
+            return div;
+        }
+
+        // ===== REGISTRAR RESULTADO =====
+        let resultadosRonda = {};
+
+        function registrarResultado(nombre1, nombre2, id, formato, resultado) {
+            let j1 = jugadores.find(j => j.nombre === nombre1);
+            let j2 = jugadores.find(j => j.nombre === nombre2);
+
+            let textoResultado = "";
+            if (resultado === 1) {
+                registrarVictoria(j1, j2);
+                textoResultado = `✅ Ganó ${j1.nombre}`;
+            } else if (resultado === 2) {
+                registrarVictoria(j2, j1);
+                textoResultado = `✅ Ganó ${j2.nombre}`;
+            } else {
+                registrarEmpate(j1, j2);
+                textoResultado = `🤝 Empate`;
+            }
+
+            // Marcar enfrentamiento como completado
+            let div = document.getElementById(`enf-${id}`);
+            div.className = "enfrentamiento completado";
+            div.querySelector(".botones-resultado").innerHTML = `<div class="resultado-texto">${textoResultado}</div>`;
+
+            resultadosRonda[id] = { j1, j2, resultado };
+
+            // Verificar si todos los enfrentamientos de la ronda están completos
+            verificarRondaCompleta(formato);
+        }
+
+        function verificarRondaCompleta(formato) {
+            let enfrentamientos = document.querySelectorAll('.enfrentamiento');
+            let completados = document.querySelectorAll('.enfrentamiento.completado');
+
+            if (enfrentamientos.length === completados.length) {
+                if (formato === 'eliminacion') {
+                    let ganadores = Object.values(resultadosRonda).map(r => {
+                        if (r.resultado === 1) return r.j1;
+                        if (r.resultado === 2) return r.j2;
+                        return Math.random() > 0.5 ? r.j1 : r.j2;
+                    });
+
+                    if (participantes.length % 2 !== 0) {
+                        ganadores.push(participantes[participantes.length - 1]);
+                    }
+
+                    resultadosRonda = {};
+                    setTimeout(() => siguienteRondaEliminacion(ganadores), 1000);
+
+                } else if (formato === 'suizo') {
+                    resultadosRonda = {};
+                    if (rondaSuizoActual < rondasSuizo) {
+                        rondaSuizoActual++;
+                        setTimeout(() => mostrarRondaSuizo(), 1000);
+                    } else {
+                        setTimeout(() => mostrarClasificacionFinal(), 1000);
+                    }
+                }
+            }
+        }
+
+        // ===== CLASIFICACIÓN FINAL =====
+        function mostrarClasificacionFinal() {
+            let contenido = document.getElementById("contenido-torneo");
+            let clasificacion = [...jugadores].sort((a, b) => b.puntos - a.puntos);
+
+            contenido.innerHTML = `<div class="ronda-titulo">🏆 Clasificación Final</div>`;
+
+            clasificacion.forEach((jugador, indice) => {
+                let card = document.createElement("div");
+                card.className = "clasificacion-card";
+
+                let posicionClass = indice === 0 ? "oro" : indice === 1 ? "plata" : indice === 2 ? "bronce" : "";
+                let medalla = indice === 0 ? "🥇" : indice === 1 ? "🥈" : indice === 2 ? "🥉" : `${indice + 1}.`;
+
+                card.innerHTML = `
+                    <div class="posicion ${posicionClass}">${medalla}</div>
+                    <div class="jugador-info">
+                        <h3>${jugador.nombre}</h3>
+                        <p>V:${jugador.victorias} D:${jugador.derrotas} E:${jugador.empates}</p>
+                    </div>
+                    <div class="puntos-badge">${jugador.puntos} pts</div>
+                `;
+                contenido.appendChild(card);
+            });
+
+            let btnNuevo = document.createElement("button");
+            btnNuevo.className = "btn-nuevo";
+            btnNuevo.style.margin = "20px auto";
+            btnNuevo.style.display = "block";
+            btnNuevo.textContent = "🔄 Nuevo Torneo";
+            btnNuevo.onclick = () => location.reload();
+            contenido.appendChild(btnNuevo);
+        }
+
+        // ===== CAMPEÓN (eliminación) =====
+        function mostrarCampeon(campeon) {
+            let contenido = document.getElementById("contenido-torneo");
+            contenido.innerHTML = `
+                <div class="campeon">
+                    <div class="trofeo">🏆</div>
+                    <h2>¡${campeon.nombre} es el Campeón!</h2>
+                    <p>Felicitaciones por ganar el torneo de eliminación directa</p>
+                    <button class="btn-nuevo" onclick="location.reload()">🔄 Nuevo Torneo</button>
+                </div>
+            `;
+        }
+
+        // ===== INICIAR =====
+        cargarJugadores();
+    </script>
+
+</body>
+</html>
