@@ -3,161 +3,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TourneyDecks</title>
+    <title>TourneyDecks - Aleatorizar</title>
     <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#FFD700">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: #0a0a14;
-            background-image: radial-gradient(ellipse at top, #1a0533 0%, #0a0a14 70%);
-            color: white;
+            background-color: #0f0f1a;
+            background-image: radial-gradient(ellipse at top, #1a0533 0%, #0f0f1a 70%);
+            color: #e0e0e0;
             font-family: 'Segoe UI', Arial, sans-serif;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             padding: 20px;
         }
 
-        .logo {
-            font-size: 4em;
-            margin-bottom: 10px;
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,215,0,0.2);
         }
 
-        h1 {
-            font-size: 2.5em;
+        .btn-volver {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: 1em;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .btn-volver:hover { background: rgba(255,255,255,0.2); }
+
+        .header h1 {
+            font-size: 1.5em;
             background: linear-gradient(135deg, #FFD700, #FF6B35);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 10px;
-            text-align: center;
         }
 
-        .subtitulo {
-            color: rgba(255,255,255,0.5);
-            margin-bottom: 50px;
-            font-size: 1.1em;
-            text-align: center;
+        .contenedor {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .menu {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .menu-btn {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 20px 25px;
+        section {
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
             border-radius: 16px;
-            text-decoration: none;
+            padding: 25px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        section h2 {
+            color: #FFD700;
             font-size: 1.1em;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        input[type="text"] {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: white;
+            font-size: 14px;
+            width: 100%;
+            margin-bottom: 10px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: white;
+            font-size: 14px;
+            width: 100%;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #FFD700;
+        }
+
+        select option {
+            background-color: #1a1a2e;
+            color: white;
+        }
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 14px;
             font-weight: bold;
+            cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
+            width: 100%;
+            margin-top: 5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
-        .menu-btn .icono {
-            font-size: 1.8em;
-        }
-
-        .menu-btn .texto h3 {
-            font-size: 1em;
-            margin-bottom: 3px;
-        }
-
-        .menu-btn .texto p {
-            font-size: 0.8em;
-            opacity: 0.7;
-            font-weight: normal;
-        }
-
-        .btn-aleatorizar {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-color: rgba(155, 48, 255, 0.4);
+        #seccion-agregar button {
+            background: linear-gradient(135deg, #6a0dad, #9b30ff);
             color: white;
+            box-shadow: 0 4px 15px rgba(106, 13, 173, 0.4);
         }
 
-        .btn-aleatorizar:hover {
-            border-color: #9b30ff;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(155, 48, 255, 0.3);
+        #seccion-agregar button:hover {
+            background: linear-gradient(135deg, #9b30ff, #6a0dad);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(106, 13, 173, 0.6);
         }
 
-        .btn-torneo {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-color: rgba(255, 215, 0, 0.4);
-            color: white;
+        #seccion-asignar button {
+            background: linear-gradient(135deg, #FFD700, #FF8C00);
+            color: #0f0f1a;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
         }
 
-        .btn-torneo:hover {
-            border-color: gold;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        #seccion-asignar button:hover {
+            background: linear-gradient(135deg, #FF8C00, #FFD700);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.5);
         }
 
-        .btn-registro {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-color: rgba(255, 107, 53, 0.4);
-            color: white;
+        .btn-eliminar {
+            background: linear-gradient(135deg, #8B0000, #cc0000) !important;
+            color: white !important;
+            padding: 5px 12px !important;
+            font-size: 12px !important;
+            width: auto !important;
+            margin: 0 !important;
         }
 
-        .btn-registro:hover {
-            border-color: #FF6B35;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+        .btn-eliminar:hover {
+            background: linear-gradient(135deg, #cc0000, #8B0000) !important;
+            transform: translateY(-1px) !important;
         }
 
-        .version {
-            margin-top: 40px;
-            color: rgba(255,255,255,0.2);
-            font-size: 0.8em;
+        .tarjeta-jugador {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-left: 3px solid #9b30ff;
+            transition: background 0.3s;
+        }
+
+        .tarjeta-jugador:hover { background: rgba(255, 255, 255, 0.08); }
+
+        .tarjeta-deck {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 8px 15px;
+            margin: 6px 0;
+            border-left: 3px solid #FFD700;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .tarjeta-deck:hover {
+            background: rgba(255, 215, 0, 0.08);
+            transform: translateX(5px);
+        }
+
+        .tarjeta-resultado {
+            background: linear-gradient(135deg, rgba(106,13,173,0.2), rgba(255,215,0,0.1));
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s;
+        }
+
+        .tarjeta-resultado:hover { transform: translateX(5px); }
+
+        .tarjeta-resultado .jugador-nombre {
+            color: #9b30ff;
+            font-weight: bold;
+        }
+
+        .tarjeta-resultado .deck-nombre { color: #FFD700; }
+
+        .ancho-completo { grid-column: 1 / -1; }
+
+        .mensaje-vacio {
+            color: rgba(255, 255, 255, 0.3);
+            font-style: italic;
+            text-align: center;
+            padding: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .contenedor { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="logo">🎴</div>
-    <h1>TourneyDecks</h1>
-    <p class="subtitulo">Organiza tu torneo de cartas</p>
+    <div class="header">
+        <a href="/" class="btn-volver">← Volver</a>
+        <h1>🎲 Aleatorizar Decks</h1>
+    </div>
 
-    <nav class="menu">
-        <a href="/aleatorizar.html" class="menu-btn btn-aleatorizar">
-            <span class="icono">🎲</span>
-            <div class="texto">
-                <h3>Aleatorizar Decks</h3>
-                <p>Asigna decks al azar a los jugadores</p>
+    <div class="contenedor">
+        <section id="seccion-agregar">
+            <h2>➕ Agregar Jugador</h2>
+            <input type="text" id="input-nombre" placeholder="Nombre del jugador">
+            <button onclick="agregarJugador()">+ Agregar</button>
+        </section>
+
+        <section id="seccion-asignar">
+            <h2>🎲 Asignar Decks</h2>
+            <select id="select-tcg" onchange="mostrarDecksDisponibles()"></select>
+            <button onclick="asignarDecks()">🎲 Asignar Decks al azar</button>
+        </section>
+
+        <section id="seccion-jugadores">
+            <h2>👥 Jugadores Registrados</h2>
+            <div id="lista-jugadores">
+                <p class="mensaje-vacio">No hay jugadores registrados.</p>
             </div>
-        </a>
+        </section>
 
-        <a href="/torneo.html" class="menu-btn btn-torneo">
-            <span class="icono">🏆</span>
-            <div class="texto">
-                <h3>Realizar Torneo</h3>
-                <p>Eliminación directa, Round Robin o Suizo</p>
+        <section id="seccion-decks">
+            <h2>🃏 Decks Disponibles</h2>
+            <div id="lista-decks"></div>
+        </section>
+
+        <section id="seccion-resultados" class="ancho-completo">
+            <h2>🏆 Resultados</h2>
+            <div id="lista-resultados">
+                <p class="mensaje-vacio">Aún no se han asignado decks.</p>
             </div>
-        </a>
-
-        <a href="/registro.html" class="menu-btn btn-registro">
-            <span class="icono">👥</span>
-            <div class="texto">
-                <h3>Registrar Jugadores y Decks</h3>
-                <p>Gestiona tu lista de jugadores y decks</p>
-            </div>
-        </a>
-    </nav>
-
-    <p class="version">TourneyDecks v1.0</p>
+        </section>
+    </div>
 
     <script>
+        let jugadores = [];
+        let decksDisponibles = {};
+
+        async function cargarDecks() {
+            let respuesta = await fetch('/decks');
+            let decks = await respuesta.json();
+
+            decks.forEach(deck => {
+                if (!decksDisponibles[deck.tcg]) {
+                    decksDisponibles[deck.tcg] = [];
+                }
+                decksDisponibles[deck.tcg].push(deck.nombre);
+            });
+
+            let select = document.getElementById("select-tcg");
+            select.innerHTML = "";
+            Object.keys(decksDisponibles).forEach(tcg => {
+                let opcion = document.createElement("option");
+                opcion.value = tcg;
+                opcion.textContent = tcg;
+                select.appendChild(opcion);
+            });
+
+            mostrarDecksDisponibles();
+        }
+
+        async function cargarJugadores() {
+            let respuesta = await fetch('/jugadores');
+            jugadores = await respuesta.json();
+            mostrarJugadores();
+        }
+
+        async function agregarJugador() {
+            let input = document.getElementById("input-nombre");
+            let nombre = input.value.trim();
+
+            if (nombre === "") {
+                alert("Por favor escribe un nombre.");
+                return;
+            }
+
+            let respuesta = await fetch('/jugadores', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre })
+            });
+
+            let datos = await respuesta.json();
+            jugadores = datos.jugadores;
+            input.value = "";
+            mostrarJugadores();
+        }
+
+        async function eliminarJugador(nombre) {
+            await fetch(`/jugadores/${nombre}`, { method: 'DELETE' });
+            jugadores = jugadores.filter(j => j.nombre !== nombre);
+            mostrarJugadores();
+        }
+
+        async function asignarDecks() {
+            if (jugadores.length === 0) {
+                alert("Agrega jugadores primero.");
+                return;
+            }
+
+            let tcg = document.getElementById("select-tcg").value;
+
+            let respuesta = await fetch('/jugadores/asignar', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tcg })
+            });
+
+            if (!respuesta.ok) {
+                let error = await respuesta.json();
+                alert(error.error);
+                return;
+            }
+
+            let datos = await respuesta.json();
+            jugadores = datos.jugadores;
+            mostrarResultados();
+        }
+
+        function mostrarJugadores() {
+            let lista = document.getElementById("lista-jugadores");
+
+            if (jugadores.length === 0) {
+                lista.innerHTML = `<p class="mensaje-vacio">No hay jugadores registrados.</p>`;
+                return;
+            }
+
+            lista.innerHTML = "";
+            jugadores.forEach(jugador => {
+                let tarjeta = document.createElement("div");
+                tarjeta.className = "tarjeta-jugador";
+                tarjeta.innerHTML = `
+                    <span>${jugador.nombre}</span>
+                    <button class="btn-eliminar" onclick="eliminarJugador('${jugador.nombre}')">✕ Eliminar</button>
+                `;
+                lista.appendChild(tarjeta);
+            });
+        }
+
+        function mostrarDecksDisponibles() {
+            let tcg = document.getElementById("select-tcg").value;
+            let decks = decksDisponibles[tcg];
+            let lista = document.getElementById("lista-decks");
+
+            lista.innerHTML = "";
+            if (!decks) return;
+
+            decks.forEach(deck => {
+                let item = document.createElement("div");
+                item.className = "tarjeta-deck";
+                item.textContent = `🃏 ${deck}`;
+                lista.appendChild(item);
+            });
+        }
+
+        function mostrarResultados() {
+            let lista = document.getElementById("lista-resultados");
+            lista.innerHTML = "";
+
+            jugadores.forEach(jugador => {
+                let item = document.createElement("div");
+                item.className = "tarjeta-resultado";
+                item.innerHTML = `
+                    <span class="jugador-nombre">👤 ${jugador.nombre}</span>
+                    <span>→</span>
+                    <span class="deck-nombre">🃏 ${jugador.deck}</span>
+                `;
+                lista.appendChild(item);
+            });
+        }
+
+        cargarDecks();
+        cargarJugadores();
+
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/service-worker.js')
                 .then(() => console.log('Service Worker registrado'))
